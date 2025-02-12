@@ -35,16 +35,6 @@
 			path = VideoGallery;
 			sourceTree = "<group>";
 		};
-		BEC827462D5D0C6800343478 /* VideoGalleryTests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = VideoGalleryTests;
-			sourceTree = "<group>";
-		};
-		BEC827502D5D0C6800343478 /* VideoGalleryUITests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = VideoGalleryUITests;
-			sourceTree = "<group>";
-		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -76,8 +66,6 @@
 			isa = PBXGroup;
 			children = (
 				BEC827332D5D0C6600343478 /* VideoGallery */,
-				BEC827462D5D0C6800343478 /* VideoGalleryTests */,
-				BEC827502D5D0C6800343478 /* VideoGalleryUITests */,
 				BEC827322D5D0C6600343478 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -130,9 +118,6 @@
 			dependencies = (
 				BEC827452D5D0C6800343478 /* PBXTargetDependency */,
 			);
-			fileSystemSynchronizedGroups = (
-				BEC827462D5D0C6800343478 /* VideoGalleryTests */,
-			);
 			name = VideoGalleryTests;
 			packageProductDependencies = (
 			);
@@ -152,9 +137,6 @@
 			);
 			dependencies = (
 				BEC8274F2D5D0C6800343478 /* PBXTargetDependency */,
-			);
-			fileSystemSynchronizedGroups = (
-				BEC827502D5D0C6800343478 /* VideoGalleryUITests */,
 			);
 			name = VideoGalleryUITests;
 			packageProductDependencies = (
