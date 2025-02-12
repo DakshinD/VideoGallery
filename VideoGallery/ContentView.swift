@@ -10,52 +10,66 @@ import SwiftData
 
 struct ContentView: View {
     @Environment(\.modelContext) private var modelContext
+    
+    @Namespace private var namespace
+    
     @Query private var items: [Item]
-
+    
+    @State private var isShowingAddView: Bool = false
+    
+    @Query var videos: [Video]
+    var clipSize: CGFloat = 150
+    var columns: [GridItem] = Array(repeating: GridItem(.flexible(), spacing: 5), count: 3)
+    
     var body: some View {
-        NavigationSplitView {
-            List {
-                ForEach(items) { item in
-                    NavigationLink {
-                        Text("Item at \(item.timestamp, format: Date.FormatStyle(date: .numeric, time: .standard))")
-                    } label: {
-                        Text(item.timestamp, format: Date.FormatStyle(date: .numeric, time: .standard))
+        NavigationStack {
+            ScrollView(.vertical) {
+                GeometryReader { geo in
+                    LazyVGrid(columns: columns) {
+                        ForEach(videos, id: \.self) { vid in
+                            NavigationLink {
+                                VideoPlayer(video: vid)
+                                    .navigationTransition(.zoom(sourceID: vid.id, in: namespace))
+                            } label: {
+                                VideoItem(thumbnailFileName: vid.thumbnailFileName, duration: vid.duration, size: (geo.size.width - 50)/3, fontSize: 12)
+                                    .matchedTransitionSource(id: vid.id, in: namespace)
+                            }
+                            
+                        }
                     }
+                    .padding()
                 }
-                .onDelete(perform: deleteItems)
             }
+            .navigationTitle("Gallery")
             .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    EditButton()
-                }
-                ToolbarItem {
-                    Button(action: addItem) {
-                        Label("Add Item", systemImage: "plus")
+                Button(action: {
+                    isShowingAddView.toggle()
+                }) {
+                    HStack {
+                        Image(systemName: "plus")
+                            .resizable()
+                            .frame(width: 15, height: 15)
+                        Text("Add")
                     }
+                    .padding(.horizontal, 15)
+                    .padding(.vertical, 8)
+                    .background(Color.gray.opacity(0.3))
+                    .clipShape(Capsule())
+                    
                 }
             }
-        } detail: {
-            Text("Select an item")
-        }
-    }
-
-    private func addItem() {
-        withAnimation {
-            let newItem = Item(timestamp: Date())
-            modelContext.insert(newItem)
-        }
-    }
-
-    private func deleteItems(offsets: IndexSet) {
-        withAnimation {
-            for index in offsets {
-                modelContext.delete(items[index])
+            .sheet(isPresented: $isShowingAddView) {
+                AddVideoView()
             }
+            
         }
+        
     }
+    
+    
 }
 
 #Preview {
     ContentView()
-        .modelContainer(for: Item.self, inMemory: true)
+        .modelContainer(for: Video.self, inMemory: true)
 }

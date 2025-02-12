@@ -12,7 +12,7 @@ import SwiftData
 struct VideoGalleryApp: App {
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
-            Item.self,
+            Video.self,
         ])
         let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
 
@@ -29,4 +29,5 @@ struct VideoGalleryApp: App {
         }
         .modelContainer(sharedModelContainer)
     }
+    
 }
